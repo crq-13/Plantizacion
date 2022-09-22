@@ -1,12 +1,8 @@
 import pandas as pd
-import json
 import geopandas as gpd
 import numpy as np
 from scipy.spatial import cKDTree
 import geopy.distance
-
-DISTANCIA_MAX = 25  # Metros
-JSON_FILE = 'lote_5-9_sin_plan.json'
 
 
 def plantizar(data_json, distancia_max=25):
@@ -92,11 +88,3 @@ def distance(row):
     distancia = geopy.distance.geodesic([row.geometry.y, row.geometry.x],
                                         [row.planta_location.y, row.planta_location.x]).meters
     return distancia
-
-
-if __name__ == "__main__":
-    with open(JSON_FILE, 'r') as d:
-        data_json = json.load(d)
-    json_final = plantizar(data_json)
-    with open('final.json', 'w') as fp:
-        json.dump(json_final, fp)
